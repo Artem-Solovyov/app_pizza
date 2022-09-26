@@ -91,7 +91,7 @@ const Home = ({searchValue}) => {
               : items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza}/>)
           }
         </div>
-        {items.length > 4 && <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>}
+        {items.length >= 8 && <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>}
 
       </div>
   );
