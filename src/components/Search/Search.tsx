@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import s from './search.module.scss'
 import searchLogo from '../../assets/img/search-512.webp'
 import closeLogo from '../../assets/img/closeIcon.png'
@@ -6,20 +6,20 @@ import useDebounce from "../../hooks/useDebounce";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, setSearchValue} from "../../redux/filterSlice";
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useDispatch()
   const {searchValue} = useSelector(selectFilter)
   const [value, setValue] = useState('');
-  const debounce = useDebounce((value)=>{dispatch(setSearchValue(value))}, 500)
-  const inputRef = useRef();
-  const onChange = (e) => {
+  const debounce = useDebounce((value: string)=>{dispatch(setSearchValue(value))}, 500)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
     debounce(e.target.value)
   }
   const onClickClose = () => {
     setValue('')
     dispatch(setSearchValue(''))
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   return (

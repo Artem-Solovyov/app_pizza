@@ -5,10 +5,10 @@ import CartItem from "../components/CartItem";
 import {clearItems, removeItems, selectCart} from "../redux/cartSlice";
 import CartEmpty from "../components/CartEmpty";
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch()
   const {totalPrice, items} = useSelector(selectCart)
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
   const onClickClear = () => {
     if (window.confirm('Очистити кошик?')) {
       dispatch(clearItems())
@@ -52,7 +52,7 @@ const Cart = () => {
             </div>
           </div>
           <div className="content__items">
-            {items.map(item => <CartItem key={item.id} {...item}/>)}
+            {items.map((item: any) => <CartItem key={item.id} {...item}/>)}
           </div>
           <div className="cart__bottom">
             <div className="cart__bottom-details">
@@ -63,7 +63,7 @@ const Cart = () => {
               <Link to="/" className="button button--outline button--add go-back-btn">
                 <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" strokeWidth="1.5" strokeLinecap="round"
-                        strokeLinecap="round"/>
+                        strokeLinejoin="round"/>
                 </svg>
 
                 <span>Вернуться назад</span>

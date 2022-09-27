@@ -10,7 +10,7 @@ import qs from "qs";
 import {useNavigate} from "react-router-dom";
 import {fetchPizzas, selectPizza} from "../redux/pizzaSlice";
 
-const Home = () => {
+const Home: React.FC = () => {
 
   const isSearch = useRef(false)
   const isMounted = useRef(false)
@@ -22,11 +22,12 @@ const Home = () => {
   const {sort, pageCount, categoryId, searchValue} = useSelector(selectFilter)
   const {items, status} = useSelector(selectPizza)
 
-  const onClickCategoryId = (id) => {
+  const onClickCategoryId = (id: number) => {
     dispatch(setCategoryId(id))
   }
 
   const getPizzas = async () => {
+    // @ts-ignore
     dispatch(fetchPizzas({
       categoryId,
       sort,
@@ -72,7 +73,7 @@ const Home = () => {
     window.scrollTo(0, 0)
   }, [categoryId, sort, pageCount, searchValue]);
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setPageCount(number))
   }
   return (
@@ -81,11 +82,11 @@ const Home = () => {
           <Categories categoryId={categoryId} onClickCategoryId={onClickCategoryId}/>
           <Sort/>
         </div>
-        <h2 className="content__title">Всі піцци</h2>
+        <h2 className="content__title">Всі піци</h2>
         <div className="content__items">
           {status === 'loading'
               ? [...new Array(6)].map((_, index) => <Sceleton key={index}/>)
-              : items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza}/>)
+              : items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza}/>)
           }
         </div>
         <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>
