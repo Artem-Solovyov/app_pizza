@@ -5,17 +5,18 @@ import Sceleton from "../components/PizzaBlock/Sceleton";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import {useDispatch, useSelector} from "react-redux";
-import {selectFilter, setCategoryId, setFilters, setPageCount} from "../redux/filterSlice";
+import {FilterStateType, selectFilter, setCategoryId, setFilters, setPageCount} from "../redux/filterSlice";
 import qs from "qs";
 import {useNavigate} from "react-router-dom";
 import {fetchPizzas, selectPizza} from "../redux/pizzaSlice";
+import {useAppDispatch} from "../hooks/hooks";
 
 const Home: React.FC = () => {
 
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const navigate = useNavigate()
 
@@ -27,7 +28,6 @@ const Home: React.FC = () => {
   }
 
   const getPizzas = async () => {
-    // @ts-ignore
     dispatch(fetchPizzas({
       categoryId,
       sort,
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
       dispatch(setFilters({
         ...params,
         sort
-      }))
+      } as FilterStateType))
       isSearch.current = true
     }
   }, []);
