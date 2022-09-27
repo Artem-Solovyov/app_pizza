@@ -1,16 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Categories from "../components/Categories";
 import Sort, {list} from "../components/Sort";
 import Sceleton from "../components/PizzaBlock/Sceleton";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId, setFilters, setPageCount} from "../redux/filterSlice";
-import axios from "axios";
+import {selectFilter, setCategoryId, setFilters, setPageCount} from "../redux/filterSlice";
 import qs from "qs";
 import {useNavigate} from "react-router-dom";
+import {fetchPizzas, selectPizza} from "../redux/pizzaSlice";
 
-const Home = ({searchValue}) => {
+const Home = () => {
+
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
@@ -18,26 +19,22 @@ const Home = ({searchValue}) => {
 
   const navigate = useNavigate()
 
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const {sort, pageCount} = useSelector(state => state.filter)
-  const categoryId = useSelector(state => state.filter.categoryId)
+  const {sort, pageCount, categoryId, searchValue} = useSelector(selectFilter)
+  const {items, status} = useSelector(selectPizza)
 
   const onClickCategoryId = (id) => {
     dispatch(setCategoryId(id))
   }
 
-  const fetchPizzas = () => {
-    setIsLoading(true)
-    axios.get(`https://632b1dd01090510116d1c169.mockapi.io/items?search=${searchValue}&page=${pageCount}&limit=8&${
-        categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${
-        sort.sortProperty.includes('-') ? sort.sortProperty.substring(1) : sort.sortProperty}&order=${
-        sort.sortProperty.includes('-') ? 'asc' : 'desc'} `)
-        .then((response) => {
-          setItems(response.data)
-          setIsLoading(false)
-        })
+  const getPizzas = async () => {
+    dispatch(fetchPizzas({
+      categoryId,
+      sort,
+      searchValue,
+      pageCount
+    }))
+
+    window.scrollTo(0, 0)
   }
 
   //Вшиваємо параметри в URL якщо вже був перший render
@@ -69,7 +66,7 @@ const Home = ({searchValue}) => {
   //Get запит на піцци (initial params | URL params)
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas()
+      getPizzas()
     }
     isSearch.current = false
     window.scrollTo(0, 0)
@@ -86,12 +83,12 @@ const Home = ({searchValue}) => {
         </div>
         <h2 className="content__title">Всі піцци</h2>
         <div className="content__items">
-          {isLoading
+          {status === 'loading'
               ? [...new Array(6)].map((_, index) => <Sceleton key={index}/>)
               : items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza}/>)
           }
         </div>
-        {items.length >= 8 && <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>}
+        <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>
 
       </div>
   );

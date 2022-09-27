@@ -3,17 +3,22 @@ import s from './search.module.scss'
 import searchLogo from '../../assets/img/search-512.webp'
 import closeLogo from '../../assets/img/closeIcon.png'
 import useDebounce from "../../hooks/useDebounce";
+import {useDispatch, useSelector} from "react-redux";
+import {selectFilter, setSearchValue} from "../../redux/filterSlice";
 
-const Search = ({searchValue, setSearchValue}) => {
+const Search = () => {
+  const dispatch = useDispatch()
+  const {searchValue} = useSelector(selectFilter)
   const [value, setValue] = useState('');
-  const debounce = useDebounce(setSearchValue, 300)
+  const debounce = useDebounce((value)=>{dispatch(setSearchValue(value))}, 500)
   const inputRef = useRef();
   const onChange = (e) => {
     setValue(e.target.value)
-    debounce(value)
+    debounce(e.target.value)
   }
   const onClickClose = () => {
-    setSearchValue('')
+    setValue('')
+    dispatch(setSearchValue(''))
     inputRef.current.focus()
   }
 
