@@ -1,7 +1,7 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 type PizzaType = {
   imageUrl: string,
@@ -37,7 +37,10 @@ const Pizza: React.FC = () => {
         <h1 style={{padding: '20px 0'}}>{pizza.title}-піца</h1>
         <h2 style={{marginTop: '-20px', marginBottom: '30px'}}>Рейтинг: {pizza.rating}/10</h2>
         <img src={pizza.imageUrl} width={'400px'} alt="Pizza"/>
-        <h2 style={{padding: '20px 0'}}>{pizza.price} $</h2>
+        <h2 style={{paddingTop: '20px 0', marginBottom: '70px'}}>{pizza.price} $</h2>
+        <Link to="/" className="button button--black">
+          <span>Повернутись назад</span>
+        </Link>
       </div>
   );
 };

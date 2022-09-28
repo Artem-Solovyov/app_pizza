@@ -1,15 +1,13 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import Categories from "../components/Categories";
-import Sort, {list} from "../components/Sort";
-import Sceleton from "../components/PizzaBlock/Sceleton";
-import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
-import Pagination from "../components/Pagination/Pagination";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import qs from "qs";
+
+import {Categories, Sort, Skeleton, PizzaBlock, Pagination} from '../components'
+import {list} from "../components/Sort";
 import {setCategoryId, setFilters, setPageCount} from "../redux/filter/slice";
 import {FilterStateType} from "../redux/filter/types";
 import {selectFilter} from "../redux/filter/selectors";
-import qs from "qs";
-import {useNavigate} from "react-router-dom";
 import {fetchPizzas} from "../redux/pizza/asyncAction";
 import {selectPizza} from "../redux/pizza/selectors";
 import {useAppDispatch} from "../hooks/hooks";
@@ -28,7 +26,7 @@ const Home: React.FC = () => {
 
   const onClickCategoryId = useCallback((id: number) => {
     dispatch(setCategoryId(id))
-  },[])
+  }, [])
 
   const getPizzas = async () => {
     dispatch(fetchPizzas({
@@ -80,21 +78,21 @@ const Home: React.FC = () => {
     dispatch(setPageCount(number))
   }
   return (
-      <div className="container">
-        <div className="content__top">
-          <Categories categoryId={categoryId} onClickCategoryId={onClickCategoryId}/>
-          <Sort value={sort}/>
-        </div>
-        <h2 className="content__title">Всі піци</h2>
-        <div className="content__items">
-          {status === 'loading'
-              ? [...new Array(6)].map((_, index) => <Sceleton key={index}/>)
-              : items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza}/>)
-          }
-        </div>
-        {categoryId === 0 && <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>}
-
+    <div className="container">
+      <div className="content__top">
+        <Categories categoryId={categoryId} onClickCategoryId={onClickCategoryId}/>
+        <Sort value={sort}/>
       </div>
+      <h2 className="content__title">Всі піци</h2>
+      <div className="content__items">
+        {status === 'loading'
+          ? [...new Array(6)].map((_, index) => <Skeleton key={index}/>)
+          : items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza}/>)
+        }
+      </div>
+      {categoryId === 0 && <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>}
+
+    </div>
   );
 };
 

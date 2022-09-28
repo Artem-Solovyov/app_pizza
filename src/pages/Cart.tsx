@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import CartItem from "../components/CartItem";
 import {clearItems, removeItems} from "../redux/cart/cartSlice";
 import {selectCart} from "../redux/cart/cartSelectors";
 import CartEmpty from "../components/CartEmpty";
+import Modal from "../components/Modal/Modal";
 
 const Cart: React.FC = () => {
+  const [visible, setVisible] = useState(false);
+  console.log(visible)
   const dispatch = useDispatch()
   const {totalPrice, items} = useSelector(selectCart)
   const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
@@ -69,12 +72,13 @@ const Cart: React.FC = () => {
 
                 <span>Повернутись</span>
               </Link>
-              <div className="button pay-btn">
+              <div onClick={()=>setVisible(true)} className="button pay-btn">
                 <span>Замовити</span>
               </div>
             </div>
           </div>
         </div>
+        <Modal totalPrice={totalPrice} visible={visible} setVisible={setVisible}/>
       </div>
   );
 };
