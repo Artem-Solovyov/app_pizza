@@ -68,6 +68,7 @@ const Header: React.FC = () => {
                 </svg>
                 <span>{totalCount}</span>
               </Link>
+
           }
         </div>
       </div>

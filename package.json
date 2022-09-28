@@ -1,7 +1,7 @@
 {
   "name": "my_app_pizza",
   "version": "0.1.0",
-  "homepage": "https://artem-solovyov.github.io/app_pizza/",
+  "homepage": "https://artem-solovyov.github.io/app_pizza",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
