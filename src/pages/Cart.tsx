@@ -2,7 +2,8 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import CartItem from "../components/CartItem";
-import {clearItems, removeItems, selectCart} from "../redux/cartSlice";
+import {clearItems, removeItems} from "../redux/cart/cartSlice";
+import {selectCart} from "../redux/cart/cartSelectors";
 import CartEmpty from "../components/CartEmpty";
 
 const Cart: React.FC = () => {
@@ -66,10 +67,10 @@ const Cart: React.FC = () => {
                         strokeLinejoin="round"/>
                 </svg>
 
-                <span>Вернуться назад</span>
+                <span>Повернутись</span>
               </Link>
               <div className="button pay-btn">
-                <span>Оплатить сейчас</span>
+                <span>Замовити</span>
               </div>
             </div>
           </div>

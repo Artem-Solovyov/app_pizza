@@ -14,7 +14,7 @@ type PropsType = {
   onClickCategoryId: (index: number) => void
 }
 
-const Categories: React.FC<PropsType> = ({categoryId, onClickCategoryId}) => {
+const Categories: React.FC<PropsType> = React.memo(({categoryId, onClickCategoryId}) => {
 
   return (
     <div className="categories">
@@ -30,6 +30,6 @@ const Categories: React.FC<PropsType> = ({categoryId, onClickCategoryId}) => {
       </ul>
     </div>
   );
-};
+})
 
 export default Categories;

@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {addItems, CartItemType, selectCartItemById} from "../../redux/cartSlice";
+import {addItems, } from "../../redux/cart/cartSlice";
+import {selectCartItemById} from "../../redux/cart/cartSelectors";
+import { CartItemType} from "../../redux/cart/cartTypes";
 import {Link} from "react-router-dom";
 
 const typesPizza = ['тонке', 'традиційне']

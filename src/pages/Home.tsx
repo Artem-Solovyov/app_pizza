@@ -1,14 +1,17 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import Categories from "../components/Categories";
 import Sort, {list} from "../components/Sort";
 import Sceleton from "../components/PizzaBlock/Sceleton";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
-import {useDispatch, useSelector} from "react-redux";
-import {FilterStateType, selectFilter, setCategoryId, setFilters, setPageCount} from "../redux/filterSlice";
+import {useSelector} from "react-redux";
+import {setCategoryId, setFilters, setPageCount} from "../redux/filter/slice";
+import {FilterStateType} from "../redux/filter/types";
+import {selectFilter} from "../redux/filter/selectors";
 import qs from "qs";
 import {useNavigate} from "react-router-dom";
-import {fetchPizzas, selectPizza} from "../redux/pizzaSlice";
+import {fetchPizzas} from "../redux/pizza/asyncAction";
+import {selectPizza} from "../redux/pizza/selectors";
 import {useAppDispatch} from "../hooks/hooks";
 
 const Home: React.FC = () => {
@@ -23,9 +26,9 @@ const Home: React.FC = () => {
   const {sort, pageCount, categoryId, searchValue} = useSelector(selectFilter)
   const {items, status} = useSelector(selectPizza)
 
-  const onClickCategoryId = (id: number) => {
+  const onClickCategoryId = useCallback((id: number) => {
     dispatch(setCategoryId(id))
-  }
+  },[])
 
   const getPizzas = async () => {
     dispatch(fetchPizzas({
@@ -80,7 +83,7 @@ const Home: React.FC = () => {
       <div className="container">
         <div className="content__top">
           <Categories categoryId={categoryId} onClickCategoryId={onClickCategoryId}/>
-          <Sort/>
+          <Sort value={sort}/>
         </div>
         <h2 className="content__title">Всі піци</h2>
         <div className="content__items">
@@ -89,7 +92,7 @@ const Home: React.FC = () => {
               : items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza}/>)
           }
         </div>
-        <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>
+        {categoryId === 0 && <Pagination currenPage={pageCount} setCurrentPage={onChangePage}/>}
 
       </div>
   );
