@@ -9,7 +9,7 @@ const typesPizza = ['тонке', 'традиційне']
 type PropsType = {
   id: string,
   title: string,
-  price: number,
+  price: number[] ,
   imageUrl: string,
   sizes: number[],
   types: number[]
@@ -26,7 +26,7 @@ const PizzaBlock: React.FC<PropsType> = ({id, title, price, imageUrl, sizes, typ
     const item: CartItemType = {
       id,
       title,
-      price,
+      price: price[sizePizza],
       imageUrl,
       type: typesPizza[typePizza],
       size: sizes[sizePizza],
@@ -62,7 +62,7 @@ const PizzaBlock: React.FC<PropsType> = ({id, title, price, imageUrl, sizes, typ
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">від {price}$</div>
+          <div className="pizza-block__price">від {price[sizePizza]}$</div>
           <button onClick={onClickAdd} className="button button--outline button--add">
             <svg
                 width="12"

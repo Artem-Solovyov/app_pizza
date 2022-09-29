@@ -23,7 +23,7 @@ const MyModal: React.FC<PropsType> = ({totalPrice, visible, setVisible}) => {
       <div className={s.modalContent} onClick={e => e.stopPropagation()}>
         <h2 className={s.text}>Ваше замовлення прийнято!</h2>
         <h4>До сплати: <b>{totalPrice}</b> $</h4>
-        <h3 className={s.text}>Очікуйте курєра. Гарного дня!</h3>
+        <h3 className={s.text}>Очікуйте кур'єра. Гарного дня!</h3>
         <div className="button pay-btn" onClick={onClick}>
           <span>Ok</span>
         </div>
